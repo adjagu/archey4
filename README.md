@@ -80,7 +80,7 @@ The answer is [here](https://blog.samuel.domains/archey4).
 | All                   | `procps` (maybe `procps-ng`)      | Many entries would not work as expected              | Would provide `ps`              |
 | All                   | `dnsutils` (maybe `bind-tools`)   | **WAN\_IP** would be detected faster                 | Would provide `dig`             |
 | All                   | `lm-sensors` (maybe `lm_sensors`) | **Temperature** would be more accurate               | N/A                             |
-| macOS (Darwin)        | `iStats` or `osx-cpu-temp`        | **Temperature** wouldn't be detected without it      | N/A                             |
+| macOS (Darwin)        | [`iStats`] or [`osx-cpu-temp`]    | **Temperature** wouldn't be detected without it      | N/A                             |
 | Graphical (desktop)   | `pciutils` or `pciconf`           | **GPU** wouldn't be detected without it              | Would provide `lspci`/`pciconf` |
 | Graphical (desktop)   | `wmctrl`                          | **WindowManager** would be more accurate             | N/A                             |
 | Virtual w/o `systemd` | `virt-what`                       | **Model** would contain details about the hypervisor | **root** privileges required    |
@@ -128,11 +128,11 @@ pkg install archey4
 
 ```bash
 # If you want the latest release :
-wget -qO archey4.tar.gz "https://github.com/HorlogeSkynet/archey4/archive/v4.14.0.0.tar.gz"
+wget -qO archey4.tar.gz "https://github.com/HorlogeSkynet/archey4/archive/v4.14.1.0.tar.gz"
 tar xvzf archey4.tar.gz
 cd archey4-*/
 
-# If you want the latest (stable) changes :
+# If you want the latest revision :
 git clone https://github.com/HorlogeSkynet/archey4.git
 cd archey4/
 ```
@@ -160,7 +160,7 @@ install -D -m0644 config.json ~/.config/archey4/config.json
 #### Step 4 (optional) : Standalone building
 
 > Some years ago, Archey was a simple and unique Python file.  
-> Project evolved, and now it's a proper module.  
+> Project evolved, and now it's a Python package.  
 > Some procedures below walk you through several ways of building Archey as a standalone program.
 
 ```bash
@@ -255,6 +255,10 @@ Below stand further descriptions for each available (default) option :
 	// Set this option to `false` to force Archey to use its own colors palettes.
 	// `true` by default to honor os-release(5) `ANSI_COLOR` option.
 	"honor_ansi_color": true,
+	// Set this option to an alternative logo style identifier instead of the default one for your distro.
+	// For example, "retro" would show the retro styled Apple logo on Darwin platforms.
+	// Note that the `--logo-style` argument overrides this setting.
+	"logo_style": "",
 	// Entries list.
 	// Add a `disabled` option set to `true` to temporary hide one.
 	// You may change entry displayed name by adding a `name` option.
@@ -470,3 +474,6 @@ Any improvement would be appreciated.
 * Don't forget to check the [Info for contributors](https://github.com/HorlogeSkynet/archey4/wiki/Info-for-contributors) wiki page.
 
 * Any patch sent by e-mail to [dev+archey@samuel.domains](mailto:dev+archey@samuel.domains) would get properly reviewed.
+
+[`iStats`]: https://github.com/Chris911/iStats
+[`osx-cpu-temp`]: https://github.com/lavoiesl/osx-cpu-temp

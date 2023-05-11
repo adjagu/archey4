@@ -1,5 +1,6 @@
 """Test module for `archey.entry`"""
 
+import typing
 import unittest
 from abc import ABC
 
@@ -56,6 +57,6 @@ class TestEntry(unittest.TestCase):
     def test_entry_output_overriding(self):
         """Check `Entry.output` public method overriding"""
         simple_entry = _SimpleEntry("is this", "ordered")
-        output = []
+        output: typing.List[typing.Tuple[str, ...]] = []
         simple_entry.output(output)
         self.assertListEqual(output, [("ordered", "is this")])

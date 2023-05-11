@@ -7,7 +7,7 @@ import os
 import sys
 from shutil import get_terminal_size
 from textwrap import TextWrapper
-from typing import Type, cast
+from typing import cast
 
 from archey.api import API
 from archey.colors import ANSI_ECMA_REGEXP, Colors
@@ -27,9 +27,13 @@ class Output:
     __LOGO_RIGHT_PADDING = "   "
 
     def __init__(self, **kwargs):
+        configuration = Configuration()
+
         # Fetches passed arguments.
         self._format_to_json = kwargs.get("format_to_json")
-        preferred_logo_style = (kwargs.get("preferred_logo_style") or "").upper()
+        preferred_logo_style = (
+            kwargs.get("preferred_logo_style") or configuration.get("logo_style") or ""
+        ).upper()
 
         try:
             # If set, force the distribution to `preferred_distribution` argument.
@@ -48,8 +52,6 @@ class Output:
         else:
             self._logo, self._colors = logo_module.LOGO.copy(), logo_module.COLORS.copy()
 
-        configuration = Configuration()
-
         # If `os-release`'s `ANSI_COLOR` option is set, honor it.
         ansi_color = Distributions.get_ansi_color()
         if ansi_color and configuration.get("honor_ansi_color"):
@@ -66,7 +68,7 @@ class Output:
         # Each class output will be added in the list below afterwards
         self._results = []
 
-    def add_entry(self, module: Type[Entry]) -> None:
+    def add_entry(self, module: Entry) -> None:
         """Append an entry to the list of entries to output"""
         self._entries.append(module)
 
@@ -93,7 +95,7 @@ class Output:
         Finally outputs entries data to JSON format.
         See `archey.api` for further documentation.
         """
-        print(API(self._entries).json_serialization(indent=(self._format_to_json - 1)))
+        print(API(self._entries).json_serialization(indent=cast(int, self._format_to_json) - 1))
 
     def _output_text(self) -> None:
         """

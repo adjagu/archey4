@@ -60,7 +60,7 @@ class WindowManager(Entry):
         super().__init__(*args, **kwargs)
 
         try:
-            self.value = re.search(
+            self.value = re.search(  # type: ignore
                 r"(?<=Name: ).*",
                 check_output(["wmctrl", "-m"], stderr=DEVNULL, universal_newlines=True),
             ).group(0)
